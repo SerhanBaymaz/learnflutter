@@ -9,6 +9,7 @@ void main() {
       backgroundColor: Colors.red,
       appBar: AppBar(
         title: Text("Dice"),
+        centerTitle: true,
         backgroundColor: Colors.red,
       ),
       body: DicePage(),
@@ -35,38 +36,60 @@ class _DicePageState extends State<DicePage> {
       diceRight = Random().nextInt(5) + 1;
     }
 
-    return Center(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    changeLeftDice();
-                  });
-                  print("Left button pressed.");
-                },
-                child: Image.asset("images/dice$diceLeft.png"),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextButton(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextButton(
                   onPressed: () {
                     setState(() {
-                      changeRightDice();
+                      changeLeftDice();
                     });
-                    print("Right button pressed.");
+                    print("Left button pressed.");
                   },
-                  child: Image.asset("images/dice$diceRight.png")),
+                  child: Image.asset("images/dice$diceLeft.png"),
+                ),
+              ),
             ),
-          ),
-        ],
-      ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        changeRightDice();
+                      });
+                      print("Right button pressed.");
+                    },
+                    child: Image.asset("images/dice$diceRight.png")),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white70,
+                onPrimary: Colors.grey,
+              ),
+              onPressed: () {
+                setState(() {
+                  changeLeftDice();
+                  changeRightDice();
+                });
+                print("Both button pressed.");
+              },
+              child: Text("Both"),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
