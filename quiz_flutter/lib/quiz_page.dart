@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_flutter/question_factory.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
@@ -8,11 +9,38 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  int score = 0;
+
+  List<Icon> scoreKeeper = [];
+  QuestionFactory questionFactory = QuestionFactory();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quiz App'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      title: const Text(
+                          "Are you sure you want to reset the score?"),
+                      actions: [
+                        TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("No")),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                            },
+                            child: const Text("Yes")),
+                      ],
+                    ));
+          },
+        ),
+        title: const Text('Pick the correct answer'),
         centerTitle: true,
       ),
       backgroundColor: Colors.grey[300],
@@ -22,7 +50,7 @@ class _QuizPageState extends State<QuizPage> {
           color: Colors.grey[300],
           child: const Center(
             child: Text(
-              '© 2023 - Quiz App',
+              "© 2023 - Serhan's Quiz App",
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.normal,
@@ -36,14 +64,14 @@ class _QuizPageState extends State<QuizPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              flex: 6,
+              flex: 4,
               child: Container(
                 margin: const EdgeInsets.all(20),
                 padding: const EdgeInsets.all(20),
-                child: const Center(
+                child: Center(
                   child: Text(
-                    'Questions show here ?',
-                    style: TextStyle(
+                    questionFactory.getQuestionText(),
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
@@ -51,6 +79,51 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
             ),
+            Expanded(
+                flex: 3,
+                child: Container(
+                  margin: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          "Score: $score",
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: (scoreKeeper.length / 5)
+                              .ceil(), // Calculate the number of rows needed
+
+                          itemBuilder: (BuildContext context, int rowIndex) {
+                            // Calculate the starting and ending index for each row
+                            int startIndex = rowIndex * 5;
+                            int endIndex = (startIndex + 5) < scoreKeeper.length
+                                ? (startIndex + 5)
+                                : scoreKeeper.length;
+
+                            // Create a row containing 5 icons or less, if it's the last row
+                            return Row(
+                              children:
+                                  scoreKeeper.sublist(startIndex, endIndex),
+                            );
+                          },
+                          scrollDirection: Axis
+                              .vertical, // Set this to vertical since we're creating rows
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                    ],
+                  ),
+                )),
             Expanded(
               flex: 1,
               child: Row(
@@ -60,7 +133,7 @@ class _QuizPageState extends State<QuizPage> {
                   buildElevatedButton("FALSE", Colors.red),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -68,8 +141,52 @@ class _QuizPageState extends State<QuizPage> {
   }
 
   ElevatedButton buildElevatedButton(String text, Color color) {
+    bool realAnswer = questionFactory.getQuestionAnswer();
+    String realAnswerString = realAnswer.toString();
+
+    String userAnswerString = text.toLowerCase();
+
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        setState(() {
+          if (realAnswerString == userAnswerString) {
+            score++;
+            scoreKeeper.add(
+              const Icon(
+                Icons.check,
+                color: Colors.green,
+              ),
+            );
+          } else {
+            score--;
+            scoreKeeper.add(
+              const Icon(
+                Icons.close,
+                color: Colors.red,
+              ),
+            );
+          }
+          questionFactory.nextQuestion();
+          if (questionFactory.isFinished() == true) {
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) => AlertDialog(
+                      title: const Text("Quiz is finished!"),
+                      content: Text("Your score is $score"),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                              Navigator.pushNamed(context, '/main');
+                            },
+                            child: const Text("OK")),
+                      ],
+                    ));
+          }
+        });
+      },
       style: ElevatedButton.styleFrom(
         primary: color,
         minimumSize: const Size(160, 70),
