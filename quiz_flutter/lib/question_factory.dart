@@ -71,6 +71,7 @@ class QuestionFactory {
 
   int _questionNumber = 0;
   bool _isFinished = false;
+  int _remainingQuestions = 0;
 
   // Getters for encapsulation
   bool getQuestionAnswer() {
@@ -95,5 +96,10 @@ class QuestionFactory {
     } else {
       _isFinished = true;
     }
+  }
+
+  int getRemainingQuestions() {
+    _remainingQuestions = _questionBank.length - _questionNumber - 1;
+    return _remainingQuestions;
   }
 }

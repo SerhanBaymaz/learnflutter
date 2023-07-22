@@ -87,14 +87,24 @@ class _QuizPageState extends State<QuizPage> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Text(
-                          "Score: $score",
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                          child: Column(
+                        children: [
+                          Text(
+                            "Score: $score",
+                            style: const TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ),
+                          Text(
+                            "Remaining: ${questionFactory.getRemainingQuestions()}",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      )),
                       Expanded(
                         child: ListView.builder(
                           shrinkWrap: true,
