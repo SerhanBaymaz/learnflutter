@@ -1,5 +1,5 @@
 import 'package:bmi_calculator/my_colors.dart';
-import 'package:bmi_calculator/pages/selector_page.dart';
+import 'package:bmi_calculator/pages/result_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(color: Colors.white),
         ),
       ),
-      home: const SelectorPage(),
+      home: ResultPage(),
     );
   }
 }

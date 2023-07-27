@@ -65,6 +65,10 @@ class _SelectorPageState extends State<SelectorPage> {
           //TODO: Calculate BMI
           double bmi = weight / ((height / 100) * (height / 100));
           print("BMI: ${bmi.toStringAsFixed(2)}");
+
+          //TODO: Navigate to Result Page
+          Navigator.pushNamed(context, '/result',
+              arguments: {'bmi': bmi.toStringAsFixed(2)});
         },
         child: const Text('CALCULATE YOUR BMI',
             style: TextStyle(
