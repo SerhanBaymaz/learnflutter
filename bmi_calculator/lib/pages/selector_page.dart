@@ -57,7 +57,15 @@ class _SelectorPageState extends State<SelectorPage> {
         title:
             const Text('BMI Calculator', style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        leading: const Icon(Icons.menu),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.insert_chart),
+            onPressed: () {
+              //TODO: Show chart
+              print('Chart button pressed');
+            },
+          ),
+        ],
       ),
       bottomNavigationBar: ElevatedButton(
         style: ElevatedButton.styleFrom(

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, prefer_const_literals_to_create_immutables
 
 import 'package:bmi_calculator/my_colors.dart';
+import 'package:bmi_calculator/pages/saved_results_page.dart';
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatelessWidget {
@@ -33,6 +34,7 @@ class ResultPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.insert_chart),
             onPressed: () {
+              //TODO: Show chart
               print('Chart button pressed');
             },
           ),
@@ -60,14 +62,7 @@ class ResultPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(
-                    resultText.toUpperCase(),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
-                    ),
-                  ),
+                  MyText(resultText: resultText, bmiResult: bmiResult),
                   Text(
                     bmiResult,
                     style: const TextStyle(
@@ -98,6 +93,10 @@ class ResultPage extends StatelessWidget {
                     child: const Text("Save Result"),
                     onPressed: () {
                       //TODO: Save result to database
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SavedResultsPage()));
                     },
                   ),
                 ],
@@ -105,6 +104,44 @@ class ResultPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class MyText extends StatelessWidget {
+  const MyText({
+    Key? key,
+    required this.resultText,
+    required this.bmiResult,
+  }) : super(key: key);
+
+  final String resultText;
+  final String bmiResult;
+
+  @override
+  Widget build(BuildContext context) {
+    int bmi = double.parse(bmiResult).toInt();
+    Color color = Colors.green;
+
+    if (bmi < 16.5) {
+      color = Colors.red;
+    } else if (bmi >= 16.5 && bmi < 18.5) {
+      color = Colors.yellow;
+    } else if (bmi >= 18.5 && bmi < 25) {
+      color = Colors.green;
+    } else if (bmi >= 25 && bmi < 30) {
+      color = Colors.yellow;
+    } else if (bmi >= 30) {
+      color = Colors.red;
+    }
+
+    return Text(
+      resultText.toUpperCase(),
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: color,
       ),
     );
   }
