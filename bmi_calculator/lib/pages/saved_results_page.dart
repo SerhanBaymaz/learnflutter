@@ -1,8 +1,10 @@
 import 'package:bmi_calculator/my_colors.dart';
 import 'package:flutter/material.dart';
 
+import '../bmi_results.dart';
+
 class SavedResultsPage extends StatefulWidget {
-  const SavedResultsPage({super.key});
+  const SavedResultsPage({Key? key}) : super(key: key);
 
   @override
   State<SavedResultsPage> createState() => _SavedResultsPageState();
@@ -33,68 +35,47 @@ class _SavedResultsPageState extends State<SavedResultsPage> {
               ),
               child: //list the bmi results here
                   ListView(
-                children: const [
-                  ListTile(
-                    title: Text('BMI: 22.1'),
-                    subtitle: Text('Normal'),
-                  ),
-                  ListTile(
-                    leading: Text(
-                      'Normal',
-                      style: TextStyle(color: Colors.white),
+                children: [
+                  for (var item in BmiResults.bmiResultsList)
+                    MyListTile(
+                      bmiResult: item["bmiResult"],
+                      resultText: item["resultText"],
+                      formatedDate: item["formatedDate"],
                     ),
-                    title: Text(
-                      '   BMI: 22.1',
-                      style: TextStyle(color: Colors.white, fontSize: 26),
-                    ),
-                    trailing: Text(
-                      '01.08.2023',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  ListTile(
-                    title: Text('BMI: 22.1'),
-                    subtitle: Text('Normal'),
-                  ),
-                  ListTile(
-                    title: Text('BMI: 22.1'),
-                    subtitle: Text('Normal'),
-                  ),
-                  ListTile(
-                    title: Text('BMI: 22.1'),
-                    subtitle: Text('Normal'),
-                  ),
-                  ListTile(
-                    title: Text('BMI: 22.1'),
-                    subtitle: Text('Normal'),
-                  ),
-                  ListTile(
-                    title: Text('BMI: 22.1'),
-                    subtitle: Text('Normal'),
-                  ),
-                  ListTile(
-                    title: Text('BMI: 22.1'),
-                    subtitle: Text('Normal'),
-                  ),
-                  ListTile(
-                    title: Text('BMI: 22.1'),
-                    subtitle: Text('Normal'),
-                  ),
-                  ListTile(
-                    title: Text('BMI: 22.1'),
-                    subtitle: Text('Normal'),
-                  ),
-                  ListTile(
-                    title: Text('BMI: 22.1'),
-                    subtitle: Text('Normal'),
-                  ),
-                  ListTile(
-                    title: Text('BMI: 22.1'),
-                    subtitle: Text('Normal'),
-                  ),
                 ],
               )),
         ),
+      ),
+    );
+  }
+}
+
+class MyListTile extends StatelessWidget {
+  final String bmiResult;
+  final String resultText;
+  final String formatedDate;
+
+  const MyListTile({
+    Key? key,
+    required this.bmiResult,
+    required this.resultText,
+    required this.formatedDate,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Text(
+        resultText,
+        style: const TextStyle(color: Colors.white),
+      ),
+      title: Text(
+        bmiResult,
+        style: const TextStyle(color: Colors.white, fontSize: 26),
+      ),
+      trailing: Text(
+        formatedDate,
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }

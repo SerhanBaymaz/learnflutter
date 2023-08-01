@@ -2,6 +2,7 @@
 
 import 'package:bmi_calculator/my_colors.dart';
 import 'package:bmi_calculator/pages/result_page.dart';
+import 'package:bmi_calculator/pages/saved_results_page.dart';
 import 'package:flutter/material.dart';
 
 import '../calculator_brain.dart';
@@ -61,8 +62,9 @@ class _SelectorPageState extends State<SelectorPage> {
           IconButton(
             icon: const Icon(Icons.insert_chart),
             onPressed: () {
-              //TODO: Show chart
-              print('Chart button pressed');
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const SavedResultsPage();
+              }));
             },
           ),
         ],

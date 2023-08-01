@@ -4,6 +4,8 @@ import 'package:bmi_calculator/my_colors.dart';
 import 'package:bmi_calculator/pages/saved_results_page.dart';
 import 'package:flutter/material.dart';
 
+import '../bmi_results.dart';
+
 class ResultPage extends StatelessWidget {
   final String bmiResult;
   final String resultText;
@@ -34,8 +36,10 @@ class ResultPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.insert_chart),
             onPressed: () {
-              //TODO: Show chart
-              print('Chart button pressed');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SavedResultsPage()));
             },
           ),
         ],
@@ -92,7 +96,16 @@ class ResultPage extends StatelessWidget {
                     ),
                     child: const Text("Save Result"),
                     onPressed: () {
-                      //TODO: Save result to database
+                      DateTime now = DateTime.now();
+                      String formattedDate =
+                          "${now.day}-${now.month}-${now.year}\n${now.hour + 3}: ${now.minute}";
+
+                      BmiResults.bmiResultsList.add({
+                        "bmiResult": bmiResult,
+                        "resultText": resultText,
+                        "formatedDate": formattedDate,
+                      });
+
                       Navigator.push(
                           context,
                           MaterialPageRoute(
