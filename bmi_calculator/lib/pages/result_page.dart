@@ -3,34 +3,47 @@
 import 'package:bmi_calculator/my_colors.dart';
 import 'package:flutter/material.dart';
 
-class ResultPage extends StatefulWidget {
-  const ResultPage({super.key});
+class ResultPage extends StatelessWidget {
+  final String bmiResult;
+  final String resultText;
+  final String interpretation;
 
-  @override
-  State<ResultPage> createState() => _ResultPageState();
-}
+  const ResultPage(
+      {Key? key,
+      required this.bmiResult,
+      required this.resultText,
+      required this.interpretation})
+      : super(key: key);
 
-class _ResultPageState extends State<ResultPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'BMI Calculator',
-          ),
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
+        centerTitle: true,
+        title: const Text(
+          'BMI Calculator',
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.insert_chart),
             onPressed: () {
-              Navigator.pop(context);
+              print('Chart button pressed');
             },
-          )),
+          ),
+        ],
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             const Text(
-              'Your Result',
+              "Your Result",
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
@@ -48,16 +61,16 @@ class _ResultPageState extends State<ResultPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Normal', //TODO: Change this to BMI result -> Underweight, Normal, Overweight, Obese
-                    style: TextStyle(
+                    resultText.toUpperCase(),
+                    style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
                     ),
                   ),
                   Text(
-                    '18.3', //TODO: Change this to BMI result -> 18.3, 22.1, 28.3, 33.1
-                    style: TextStyle(
+                    bmiResult,
+                    style: const TextStyle(
                       fontSize: 80,
                       fontWeight: FontWeight.bold,
                     ),
@@ -69,8 +82,8 @@ class _ResultPageState extends State<ResultPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Text(
-                      'You have a normal body weight. Good job!', //TODO: Change this to BMI result -> You have a normal body weight. Good job!, You have a lower than normal body weight. You can eat a bit more., You have a higher than normal body weight. Try to exercise more., You have a much higher than normal body weight. You should exercise more and eat less.
-                      style: TextStyle(
+                      interpretation,
+                      style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -82,8 +95,10 @@ class _ResultPageState extends State<ResultPage> {
                       backgroundColor: MaterialStateProperty.all<Color>(
                           MyColors.colourCardDeactive),
                     ),
-                    child: Text("Save Result"),
-                    onPressed: () {},
+                    child: const Text("Save Result"),
+                    onPressed: () {
+                      //TODO: Save result to database
+                    },
                   ),
                 ],
               ),

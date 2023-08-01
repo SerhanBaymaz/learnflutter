@@ -1,7 +1,10 @@
 // ignore_for_file: avoid_print, prefer_const_literals_to_create_immutables
 
 import 'package:bmi_calculator/my_colors.dart';
+import 'package:bmi_calculator/pages/result_page.dart';
 import 'package:flutter/material.dart';
+
+import '../calculator_brain.dart';
 
 enum Gender { male, female }
 
@@ -62,13 +65,16 @@ class _SelectorPageState extends State<SelectorPage> {
           minimumSize: const Size(double.infinity, 80),
         ),
         onPressed: () {
-          //TODO: Calculate BMI
-          double bmi = weight / ((height / 100) * (height / 100));
-          print("BMI: ${bmi.toStringAsFixed(2)}");
+          CalculatorBrain calc =
+              CalculatorBrain(height: height, weight: weight);
 
-          //TODO: Navigate to Result Page
-          Navigator.pushNamed(context, '/result',
-              arguments: {'bmi': bmi.toStringAsFixed(2)});
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return ResultPage(
+              bmiResult: calc.calculateBMI(),
+              resultText: calc.getResult(),
+              interpretation: calc.getInterpretation(),
+            );
+          }));
         },
         child: const Text('CALCULATE YOUR BMI',
             style: TextStyle(
@@ -123,7 +129,7 @@ class _SelectorPageState extends State<SelectorPage> {
                   Expanded(
                       child: Container(
                     decoration: BoxDecoration(
-                      color: MyColors.colourCardDeactive,
+                      color: MyColors.colourCardActive,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
@@ -166,7 +172,7 @@ class _SelectorPageState extends State<SelectorPage> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: MyColors.colourCardDeactive,
+                        color: MyColors.colourCardActive,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -227,7 +233,7 @@ class _SelectorPageState extends State<SelectorPage> {
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: MyColors.colourCardDeactive,
+                        color: MyColors.colourCardActive,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
