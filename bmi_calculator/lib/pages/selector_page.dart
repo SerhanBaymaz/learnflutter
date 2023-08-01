@@ -193,35 +193,25 @@ class _SelectorPageState extends State<SelectorPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (weight > 0) {
-                                      weight--;
-                                    }
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.remove,
-                                  color: Colors.white,
-                                  size: 40,
-                                ),
-                              ),
+                              MyButton(
+                                  icon: Icons.remove,
+                                  onPressedd: () {
+                                    setState(() {
+                                      if (weight > 0) {
+                                        weight--;
+                                      }
+                                    });
+                                  }),
                               const SizedBox(width: 16),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (weight < 200) {
-                                      weight++;
-                                    }
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 40,
-                                ),
-                              ),
+                              MyButton(
+                                  icon: Icons.add,
+                                  onPressedd: () {
+                                    setState(() {
+                                      if (weight < 200) {
+                                        weight++;
+                                      }
+                                    });
+                                  }),
                             ],
                           ),
                         ],
@@ -254,35 +244,25 @@ class _SelectorPageState extends State<SelectorPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (age > 0) {
-                                      age--;
-                                    }
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.remove,
-                                  color: Colors.white,
-                                  size: 40,
-                                ),
-                              ),
+                              MyButton(
+                                  icon: Icons.remove,
+                                  onPressedd: () {
+                                    setState(() {
+                                      if (age > 0) {
+                                        age--;
+                                      }
+                                    });
+                                  }),
                               const SizedBox(width: 16),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (age < 100) {
-                                      age++;
-                                    }
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 40,
-                                ),
-                              ),
+                              MyButton(
+                                  icon: Icons.add,
+                                  onPressedd: () {
+                                    setState(() {
+                                      if (age < 200) {
+                                        age++;
+                                      }
+                                    });
+                                  }),
                             ],
                           ),
                         ],
@@ -329,6 +309,31 @@ class _MyGenderCardWidgetState extends State<MyGenderCardWidget> {
               style: TextStyle(fontSize: 20, color: widget.textColorr)),
         ],
       ),
+    );
+  }
+}
+
+// create new widget using RawMaterialButton
+
+class MyButton extends StatelessWidget {
+  final IconData icon;
+  final Function onPressedd;
+
+  const MyButton({super.key, required this.icon, required this.onPressedd});
+
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      onPressed: () {
+        onPressedd();
+      },
+      shape: const CircleBorder(),
+      fillColor: Color(0xFF4C4F5E),
+      constraints: const BoxConstraints.tightFor(
+        width: 56,
+        height: 56,
+      ),
+      child: Icon(icon, color: Colors.white),
     );
   }
 }
